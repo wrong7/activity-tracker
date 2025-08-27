@@ -7,7 +7,7 @@ import { DateTimePicker24h } from "@/components/ui/date-time-picker"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Fragment, useRef, useState } from "react"
+import { Fragment, useEffect, useRef, useState } from "react"
 import { useActivities } from "@/hooks/use-activities"
 import { authClient } from "@/lib/auth-client"
 import Link from "next/link"
@@ -29,8 +29,17 @@ export function ActivityTracker({
     const { data } = authClient.useSession();
     const { data: activities } = useActivities();
 
+
+
     const nameRef = useRef<HTMLInputElement>(null);
     const [timestamp, setTimestamp] = useState<Date>(new Date());
+
+    useEffect(() => {
+        if (nameRef.current) {
+            if (selectedActivity) nameRef.current.value = selectedActivity
+            else nameRef.current.value = ""
+        }
+    }, [selectedActivity])
 
     const filteredActivities = selectedActivity
         ? activities?.filter((activity) => activity.name === selectedActivity) ?? []
