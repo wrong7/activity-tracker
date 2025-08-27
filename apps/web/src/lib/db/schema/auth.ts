@@ -49,3 +49,10 @@ export const verification = pgTable("verification", {
 	createdAt: timestamp("created_at"),
 	updatedAt: timestamp("updated_at"),
 });
+
+export const jwks = pgTable("jwks", {
+	id: text("id").primaryKey(),
+	publicKey: text("publicKey").notNull(),
+	privateKey: text("privateKey").notNull(),
+	createdAt: timestamp("created_at"),
+});
